@@ -1,5 +1,5 @@
 """
-Agent 2: The Forensic Expert - MoveH
+Agent 2: The Forensic Expert - Clime
 
 Analyzes text for manipulation, AI generation, and fraud indicators.
 - Profiler: Linguistic analysis (panic, urgency, typos, grammar)

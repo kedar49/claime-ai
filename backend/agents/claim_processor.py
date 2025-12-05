@@ -1,8 +1,7 @@
 """
-Claim Processor - MoveH
+Claim Processor - Claime
 
 Processes claims for on-chain storage preparation:
-- Generates claim hash (for exact matching)
 - Extracts keywords (for semantic search)
 - Detects claim type (for freshness rules)
 - Calculates expiry time (based on claim type)
