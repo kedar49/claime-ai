@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-MoveH Full System Test Suite
+Claime AI Full System Test Suite
 
 Run all tests: uv run python test_full_system.py
 """
@@ -97,7 +97,7 @@ class TestEndToEnd(unittest.TestCase):
 def run_tests():
     """Run all tests with nice output"""
     print("\n" + "="*70)
-    print("🛡️  MoveH - Full System Test Suite")
+    print("🛡️  Claime AI - Full System Test Suite")
     print("="*70 + "\n")
     
     # Create test suite

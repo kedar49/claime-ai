@@ -1,7 +1,7 @@
 """
 Claime - Modal Deployment
 
-Deploy the MoveH fact-checking API to Modal with persistent storage volume.
+Deploy the Claime AI fact-checking API to Modal with persistent storage volume.
 
 Usage:
     # Development mode (live reload)
@@ -18,10 +18,10 @@ import modal
 from pathlib import Path
 
 # Define the Modal app
-app = modal.App("moveh-api")
+app = modal.App("claime-api")
 
 # Create a persistent volume for PDF storage
-volume = modal.Volume.from_name("moveh-storage", create_if_missing=True)
+volume = modal.Volume.from_name("claime-storage", create_if_missing=True)
 
 # Get the directory where this script is located
 SCRIPT_DIR = Path(__file__).parent
@@ -68,7 +68,7 @@ VOLUME_PATH = "/app/storage"
 @app.function(
     image=image,
     volumes={VOLUME_PATH: volume},
-    secrets=[modal.Secret.from_name("moveh-secrets")],
+    secrets=[modal.Secret.from_name("claime-secrets")],
     timeout=600,  # 10 minute timeout for long verifications
     memory=2048,  # 2GB memory
     cpu=2.0,  # 2 CPU cores
@@ -77,7 +77,7 @@ VOLUME_PATH = "/app/storage"
 @modal.asgi_app()
 def fastapi_app():
     """
-    Serve the MoveH FastAPI application.
+    Serve the Claime AI FastAPI application.
     
     The ASGI app is returned directly for Modal to serve.
     Volume is mounted at /app/storage for persistent PDF storage.
@@ -194,5 +194,5 @@ def main():
     print("  modal run modal_app.py::list_reports")
     print("  modal run modal_app.py::cleanup_old_reports --days 7")
     print()
-    print("Volume: moveh-storage")
+    print("Volume: claime-storage")
     print("Mount path: /app/storage")

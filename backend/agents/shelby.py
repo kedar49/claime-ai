@@ -73,8 +73,16 @@ class Shelby:
 
     def __init__(self, storage_dir="storage"):
         self.storage_dir = storage_dir
-        if not os.path.exists(self.storage_dir):
-            os.makedirs(self.storage_dir)
+        # Ensure storage directory exists with proper permissions
+        try:
+            os.makedirs(self.storage_dir, exist_ok=True)
+            logger.info(f"Storage directory ready: {self.storage_dir}")
+        except Exception as e:
+            logger.error(f"Failed to create storage directory: {e}")
+            # Fallback to temp directory if storage creation fails
+            import tempfile
+            self.storage_dir = tempfile.gettempdir()
+            logger.warning(f"Using temp directory: {self.storage_dir}")
 
     def generate_report(self, aep_data: dict) -> str:
         """Generate a comprehensive dark, terminal-style PDF report."""
@@ -88,7 +96,17 @@ class Shelby:
         verdict_data = aep_data.get("verdict", {})
         
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        pdf_path = os.path.join(self.storage_dir, f"moveh_report_{timestamp}.pdf")
+        pdf_path = os.path.join(self.storage_dir, f"claime_report_{timestamp}.pdf")
+        
+        # Ensure storage directory exists before generating PDF
+        try:
+            os.makedirs(self.storage_dir, exist_ok=True)
+        except Exception as e:
+            logger.error(f"Failed to create storage directory: {e}")
+            import tempfile
+            self.storage_dir = tempfile.gettempdir()
+            pdf_path = os.path.join(self.storage_dir, f"claime_report_{timestamp}.pdf")
+            logger.warning(f"Using temp directory for PDF: {pdf_path}")
         
         try:
             # Custom Page Template for Black Background
@@ -133,9 +151,9 @@ class Shelby:
             content = []
             
             # ═══════════════════════════════════════════════════════════════
-            # 1. HEADER: MOVE+H // AEP
+            # 1. HEADER: CLAIME AI // AEP
             # ═══════════════════════════════════════════════════════════════
-            header_text = f"MOVE+H // AEP <font size=10 color='#AAAAAA'>DATE: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</font>"
+            header_text = f"CLAIME AI // AEP <font size=10 color='#AAAAAA'>DATE: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</font>"
             content.append(Paragraph(header_text, style_title))
             content.append(Paragraph(f"CLAIM ID: {aep_data.get('claim_id', 'N/A')}", 
                 ParagraphStyle('ID', fontName='Courier', fontSize=10, textColor=GRAY)))
@@ -411,7 +429,7 @@ class Shelby:
             
             footer_text = (
                 f"REPORT GENERATED: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} | "
-                f"MOVE+H v1.0 | POWERED BY SENTINEL SWARM"
+                f"CLAIME AI v1.0 | POWERED BY SENTINEL SWARM"
             )
             content.append(Paragraph(footer_text, 
                 ParagraphStyle('Footer', fontName='Courier', fontSize=7, textColor=DARK_GRAY, 
@@ -426,7 +444,7 @@ class Shelby:
             # Fallback simple PDF
             doc = SimpleDocTemplate(pdf_path, pagesize=A4)
             content = [
-                Paragraph("MoveH Fact-Check Report", ParagraphStyle('Title', fontSize=24, spaceAfter=20)),
+                Paragraph("Claime AI Fact-Check Report", ParagraphStyle('Title', fontSize=24, spaceAfter=20)),
                 Paragraph(f"Claim: {claim}", ParagraphStyle('Claim', fontSize=12, spaceAfter=10)),
                 Paragraph(f"Verdict: {aep_data.get('verdict', {}).get('decision', 'UNKNOWN')}", 
                     ParagraphStyle('Verdict', fontSize=14, spaceAfter=10)),
@@ -452,7 +470,7 @@ class Shelby:
             return local_url
 
         try:
-            blob_name = f"moveh-reports/{filename}"
+            blob_name = f"claime-reports/{filename}"
             expiry = "in 30 days"
 
             cmd = [

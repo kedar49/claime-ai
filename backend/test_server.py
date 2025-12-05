@@ -8,7 +8,7 @@ import sys
 import os
 
 print("=" * 60)
-print("MoveH Backend - Configuration Test")
+print("Claime AI Backend - Configuration Test")
 print("=" * 60)
 
 # Test 1: Check Python version

@@ -12,7 +12,7 @@ from agents import FactChecker, ForensicExpert, TheJudge
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("MoveH-API")
+logger = logging.getLogger("Claime-API")
 
 app = FastAPI(title="Claime API", description="AI Fact-Checking API")
 
@@ -35,6 +35,22 @@ from agents.shelby import Shelby
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STORAGE_DIR = os.path.join(BASE_DIR, "storage")
 
+# Ensure storage directory exists with proper permissions
+try:
+    os.makedirs(STORAGE_DIR, exist_ok=True)
+    logger.info(f"Storage directory ready: {STORAGE_DIR}")
+except Exception as e:
+    logger.error(f"Failed to create storage directory: {e}")
+    import tempfile
+    STORAGE_DIR = tempfile.gettempdir()
+    logger.warning(f"Using temp directory: {STORAGE_DIR}")
+
+# Set BACKEND_URL environment variable for Shelby to use in download URLs
+if not os.getenv("BACKEND_URL"):
+    # Try to detect from environment or use default
+    os.environ["BACKEND_URL"] = os.getenv("RENDER_EXTERNAL_URL", "http://localhost:8000")
+    logger.info(f"BACKEND_URL set to: {os.environ['BACKEND_URL']}")
+
 # Instantiate agents
 fact_checker = FactChecker()
 forensic_expert = ForensicExpert()
@@ -42,8 +58,6 @@ judge = TheJudge()
 shelby = Shelby(storage_dir=STORAGE_DIR)
 
 # Mount storage directory for downloads
-if not os.path.exists(STORAGE_DIR):
-    os.makedirs(STORAGE_DIR)
 app.mount("/download", StaticFiles(directory=STORAGE_DIR), name="download")
 
 @app.get("/")

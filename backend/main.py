@@ -125,7 +125,7 @@ def validate_claim(text: str) -> tuple[bool, str]:
         error_msg = """
 [bold red]❌ Questions cannot be fact-checked![/bold red]
 
-MoveH verifies [bold]claim statements[/bold], not questions.
+Claime AI verifies [bold]claim statements[/bold], not questions.
 
 [bold cyan]❌ Don't ask:[/bold cyan]
   • "Is Tesla buying Twitter?"
@@ -472,7 +472,7 @@ def generate_pdf_report(claim: str, a1_result: dict, a2_result: dict, aep: dict)
     os.makedirs(reports_dir, exist_ok=True)
     
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    pdf_path = os.path.join(reports_dir, f"moveh_report_{timestamp}.pdf")
+    pdf_path = os.path.join(reports_dir, f"claime_report_{timestamp}.pdf")
     
     try:
         # Create document
@@ -547,7 +547,7 @@ def generate_pdf_report(claim: str, a1_result: dict, a2_result: dict, aep: dict)
         
         # Header Info
         header_row = [[
-            Paragraph("MOVEH", ParagraphStyle('Logo', fontSize=10, textColor=GRAY_600, fontName='Helvetica-Bold')),
+            Paragraph("CLAIME AI", ParagraphStyle('Logo', fontSize=10, textColor=GRAY_600, fontName='Helvetica-Bold')),
             Paragraph(f"{datetime.now().strftime('%B %d, %Y')}", ParagraphStyle('Date', fontSize=10, textColor=GRAY_500, alignment=TA_RIGHT))
         ]]
         content.append(RLTable(header_row, colWidths=[doc.width/2, doc.width/2]))
@@ -753,7 +753,7 @@ def generate_pdf_report(claim: str, a1_result: dict, a2_result: dict, aep: dict)
         # Footer
         content.append(Spacer(1, 30))
         chain_meta = aep.get("chain_metadata", {})
-        footer_text = f"Report ID: {aep.get('claim_id', 'N/A')} | Type: {chain_meta.get('claim_type_name', 'N/A')} | Generated via MoveH AI"
+        footer_text = f"Report ID: {aep.get('claim_id', 'N/A')} | Type: {chain_meta.get('claim_type_name', 'N/A')} | Generated via Claime AI"
         content.append(Paragraph(footer_text, 
                                  ParagraphStyle('Foot', fontSize=7, textColor=GRAY_500, alignment=TA_CENTER)))
 

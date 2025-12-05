@@ -1,6 +1,6 @@
 @echo off
 echo ========================================
-echo   MoveH Backend Server
+echo   Claime AI Backend Server
 echo ========================================
 echo.
 echo Starting FastAPI server on http://localhost:8000

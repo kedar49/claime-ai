@@ -22,7 +22,7 @@ export default function Home() {
     setSources([]);
 
     try {
-      const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "";
+      const apiBaseUrl = (process.env.NEXT_PUBLIC_API_BASE_URL || "").replace(/\/$/, "");
       const res = await fetch(`${apiBaseUrl}/verify_stream`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
