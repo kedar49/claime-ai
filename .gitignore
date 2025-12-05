@@ -15,11 +15,14 @@ env/
 .env
 .env.local
 .env.*.local
+backend/.env
+frontend/.env.local
 
 # Logs and reports
 logs/
 reports/
 slides/
+backend/storage/*.pdf
 
 # Documentation drafts
 litrature-survay.md
@@ -27,8 +30,9 @@ problme-statement.md
 
 # Package manager
 uv.lock
-
-# Blockchain removed from project
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
 
 # IDE
 .vscode/
@@ -45,3 +49,26 @@ frontend/.next/
 frontend/out/
 frontend/node_modules/
 node_modules/
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Build outputs
+*.pyc
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+.hypothesis/
+
+# Deployment
+.vercel
