@@ -1,0 +1,25 @@
+# MoveH Backend Dependencies
+# Install with: pip install -r requirements.txt
+
+# Web Framework
+fastapi>=0.122.0
+uvicorn>=0.38.0
+
+# AI & LLM
+langchain>=1.1.0
+langchain-core>=1.1.0
+langchain-google-genai>=2.0.0
+langgraph>=0.2.0
+
+# Web Search
+tavily-python>=0.5.0
+
+# PDF Generation
+reportlab>=4.4.5
+
+# CLI & Terminal UI
+rich>=14.2.0
+
+# Utilities
+pydantic>=2.12.5
+python-dotenv>=1.2.1
